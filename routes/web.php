@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/series', 'SeriesController@index')
+Route::get('/', 'SeriesController@index')
     ->name('listar_series');
 Route::get('/series/criar', 'SeriesController@create')
     ->name('form_criar_serie')
@@ -41,3 +41,29 @@ Route::get('/sair', function () {
     \Illuminate\Support\Facades\Auth::logout();
     return redirect('/entrar');
 });
+
+Route::get('/visualizando-email',function(){
+   return new \App\Mail\NovaSerie(
+        'Arrow',
+        5,
+        10
+   );
+});
+
+Route::get('/enviando-email',function()
+{
+    $email = new \App\Mail\NovaSerie(
+        'Arrow',
+        5,
+        10
+    );
+
+    $usuarios =  (object) [
+        'email' => 'daniel@melo.com',
+        'name'  => 'Daniel',
+    ];
+
+    \Illuminate\Support\Facades\Mail::to($usuarios)->send($email);
+
+    return 'E-mail enviado com sucesso!';
+ });
