@@ -30,11 +30,22 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(
-        SeriesFormRequest $request,
-        CriadorDeSerie $criadorDeSerie
-    ) {
-        $serie = $criadorDeSerie->criarSerie($request->nome, $request->qtd_temporadas, $request->ep_por_temporada);
+    public function store(SeriesFormRequest $request, CriadorDeSerie $criadorDeSerie)
+    {
+
+        $capa = null;
+
+        if($request->hasFile('capa'))
+        {
+            $capa = $request->file('capa')->store('serie'); # Faz upload de arquivo recebido do form
+        }
+
+        $serie = $criadorDeSerie->criarSerie(
+            $request->nome,
+            $request->qtd_temporadas,
+            $request->ep_por_temporada,
+            $capa);
+
         $eventoNovaSerie = new NovaSerie($request->nome, $request->qtd_temporadas, $request->ep_por_temporada);
 
         event($eventoNovaSerie);
