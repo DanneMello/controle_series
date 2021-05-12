@@ -22,7 +22,10 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\NovaSerie::class  => [
             \App\Listeners\EnviarEmailNovaSerieCadastrada::class,
             \App\Listeners\LogNovaSerieCadastrada::class,
-        ]
+        ],/*
+        \App\Events\SerieApagada::class  => [
+            \App\Listeners\ExcluirCapaSerie::class,
+        ] */
     ];
 
     /**
